@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Key Generator</title>
+<style>
+body {
+  margin:0; background: linear-gradient(135deg,#0f0f0f,#1a1a1a);
+  font-family: "Inter", sans-serif; color:#fff;
+  display:flex; justify-content:center; align-items:center; height:100vh;
+}
+.box {
+  background: rgba(255,255,255,0.05);
+  padding: 40px; border-radius:16px;
+  backdrop-filter: blur(10px); text-align:center;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+h1 { margin-bottom:20px; }
+input { width:60px; padding:8px; border-radius:6px; border:none; background:#222; color:#fff; text-align:center; }
+button {
+  padding:12px 20px; margin-top:15px;
+  border:none; border-radius:8px;
+  background:#4e6cff; color:#fff; cursor:pointer;
+}
+button:hover { background:#3e55cc; transform:translateY(-2px); }
+#keyBox {
+  margin-top:20px; font-family: monospace; background:#111; padding:12px; border-radius:8px;
+}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Generate Global Key</h1>
+  <input type="number" id="expInput" value="5"> min expiration<br>
+  <button onclick="generateKey()">Generate Key</button>
+  <div id="keyBox">No key yet</div>
+</div>
+<script>
+let lastKey = "";
+let expireAt = 0;
+function generateKey(){
+  const part = ()=>Math.random().toString(36).substring(2,6).toUpperCase();
+  lastKey = `${part()}-${part()}-${part()}-PASS`;
+  const exp = parseInt(document.getElementById("expInput").value);
+  expireAt = Date.now()+exp*60*1000;
+  document.getElementById("keyBox").textContent = lastKey + " | Expires in "+exp+" min";
+
+  // Opcjonalnie skopiuj do tablicy validKeys w verify.html
+  console.log("Key: "+lastKey);
+}
+</script>
+</body>
+</html>
