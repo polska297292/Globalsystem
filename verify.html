@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Access Verification</title>
+<style>
+body { margin:0; background: linear-gradient(135deg,#0f0f0f,#1a1a1a);
+font-family: "Inter", sans-serif; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh; }
+.box { background: rgba(255,255,255,0.05); padding:40px; border-radius:16px;
+backdrop-filter: blur(10px); text-align:center; box-shadow:0 0 40px rgba(0,0,0,0.5);}
+h1 { margin-bottom:10px;}
+.dev { font-size:14px; opacity:0.7; margin-bottom:20px;}
+input { width:90%; padding:12px; border-radius:8px; border:none; margin-bottom:20px; outline:none; background:#222; color:#fff;}
+button { width:180px; padding:12px; border:none; border-radius:8px; background:#4e6cff; color:#fff; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; margin:0 auto; }
+button:hover { background:#3e55cc; transform:translateY(-2px);}
+#content { display:none; margin-top:30px; text-align:left;}
+.games a { display:flex; align-items:center; gap:10px; padding:10px 12px; background:#1b1b1b; margin-top:10px; border-radius:8px; text-decoration:none; color:white;}
+.games a:hover { background:#2a2a2a; transform:translateX(4px);}
+textarea { width:100%; background:#111; border:none; padding:15px; border-radius:8px; color:#fff; resize:none; height:130px; margin-top:10px; font-family:monospace;}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Access Key</h1>
+<p class="dev">Developer: ??? | Developer 2: ??? 2</p>
+<input id="inputKey" placeholder="Enter your key">
+<button onclick="checkKey()">Verify</button>
+<p id="message" style="height:20px; margin-top:15px;"></p>
+
+<div id="content">
+  <h2>Games</h2>
+  <div class="games">
+    <a href="https://www.roblox.com/games/1234567890/Game-One" target="_blank">Game One</a>
+    <a href="https://www.roblox.com/games/2345678901/Game-Two" target="_blank">Game Two</a>
+    <a href="https://www.roblox.com/games/3456789012/Game-Three" target="_blank">Game Three</a>
+  </div>
+  <h2>Script</h2>
+  <textarea id="scriptBox" readonly>// Your script here</textarea>
+  <button onclick="copyScript()">Copy Script</button>
+</div>
+</div>
+<script>
+const validKeys = [
+  {key:"H4ES-HVAS-HCPT-PASS", expires: Date.now()+5*60*1000},
+  {key:"ABCD-EFGH-IJKL-PASS", expires: Date.now()+10*60*1000}
+];
+
+function checkKey(){
+  const user = document.getElementById("inputKey").value.trim();
+  const msg = document.getElementById("message");
+  const content = document.getElementById("content");
+  const k = validKeys.find(k=>k.key===user);
+  if(!k){ msg.style.color="#ff4d4d"; msg.textContent="Invalid key"; content.style.display="none"; return;}
+  if(Date.now()>k.expires){ msg.style.color="#ff4d4d"; msg.textContent="Key expired"; content.style.display="none"; return;}
+  msg.style.color="#4eca64"; msg.textContent="Access granted"; content.style.display="block";
+}
+function copyScript(){
+  const box = document.getElementById("scriptBox"); box.select();
+  navigator.clipboard.writeText(box.value);
+}
+</script>
+</body>
+</html>
